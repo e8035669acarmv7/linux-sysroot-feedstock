@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir -p ${PREFIX}/${target_machine}-${ctng_vendor}-linux-gnu/sysroot
-pushd ${PREFIX}/${target_machine}-${ctng_vendor}-linux-gnu/sysroot > /dev/null 2>&1
+mkdir -p ${PREFIX}/${target_machine}-${ctng_vendor}-linux-gnueabihf/sysroot
+pushd ${PREFIX}/${target_machine}-${ctng_vendor}-linux-gnueabihf/sysroot > /dev/null 2>&1
 cp -Rf "${SRC_DIR}"/binary/* .
 mkdir -p usr/include
 cp -Rf "${SRC_DIR}"/binary-tzdata/* usr/
@@ -12,6 +12,7 @@ cp -Rf "${SRC_DIR}"/binary-glibc-common/* .
 
 mkdir -p usr/lib
 mkdir -p usr/lib64
+mkdir -p lib64
 mv usr/lib/* usr/lib64/
 rm -rf usr/lib
 ln -s $PWD/usr/lib64 $PWD/usr/lib
@@ -24,6 +25,10 @@ fi
 if [[ "$target_machine" == "s390x" ]]; then
    rm -rf $PWD/lib64/ld64.so.1
    ln -s $PWD/lib64/ld-* $PWD/lib64/ld64.so.1
+fi
+if [[ "$target_machine" == "armv7l" ]]; then
+   rm -rf $PWD/lib64/ld-linux.so.3
+   ln -s $PWD/lib64/ld-linux-armhf.so.3 $PWD/lib64/ld-linux.so.3
 fi
 
 ## Linking or building against libsnsl produces binaries that don't run on recent Linux distributions.
@@ -42,6 +47,6 @@ rm usr/include/rpcsvc/yp.x
 
 ln -s $PWD/lib64 $PWD/lib
 
-cp "${SRC_DIR}"/binary-freebl/usr/lib64/libfreebl3.so ${PWD}/usr/lib64/.
+cp "${SRC_DIR}"/binary-freebl/usr/lib/libfreebl3.so ${PWD}/usr/lib64/.
 
 popd

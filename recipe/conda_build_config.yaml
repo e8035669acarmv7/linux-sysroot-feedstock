@@ -1,23 +1,11 @@
 target_machine:
-  - x86_64
-  - aarch64
-  - powerpc64le
-  - s390x
+  - armv7l
 centos_machine:
-  - x86_64
-  - aarch64
-  - ppc64le
-  - s390x
+  - armv7hl
 cross_target_platform:
-  - linux-64
-  - linux-aarch64
-  - linux-ppc64le
-  - linux-s390x
+  - linux-armv7l
 sysroot_cdt_arch:
-  - x86_64
-  - aarch64
-  - ppc64le
-  - s390x
+  - armv7l
 
 ctng_vendor:
   - conda
